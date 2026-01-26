@@ -1,0 +1,441 @@
+/* =========================
+   BRAND VARIABLES
+========================= */
+:root {
+  --primary: #0d6efd;
+  --success: #198754;
+  --dark: #212529;
+  --light: #f8f9fa;
+  --radius: 14px;
+}
+
+/* =========================
+   GLOBAL
+========================= */
+body {
+  background-color: var(--light);
+  color: var(--dark);
+}
+
+/* Typography polish */
+h1, h2, h3, h4, h5 {
+  letter-spacing: -0.5px;
+}
+
+p {
+  line-height: 1.6;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.btn {
+  border-radius: var(--radius);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  border: none;
+}
+
+.btn-success {
+  background-color: var(--success);
+  border: none;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* Bigger tap area for mobile */
+.btn-lg {
+  padding: 14px 18px;
+}
+
+/* =========================
+   CARDS
+========================= */
+.card {
+  border: none;
+  border-radius: var(--radius);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   FORMS
+========================= */
+.form-control,
+.form-select {
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--success);
+  box-shadow: 0 0 0 0.15rem rgba(25, 135, 84, 0.25);
+}
+
+/* =========================
+   NAVBAR
+========================= */
+.navbar {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+  background-color: var(--dark);
+  color: #ccc;
+}
+
+footer small {
+  opacity: 0.85;
+}
+
+/* =========================
+   MOBILE FIXES
+========================= */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.container {
+  max-width: 1140px;
+}
+.navbar-brand img {
+  object-fit: contain;
+}
+
+.navbar {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.card-img-top {
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+body.dark {
+  background-color: #121212;
+  color: #f1f1f1;
+}
+
+body.dark .card {
+  background-color: #1e1e1e;
+}
+
+body.dark footer {
+  background-color: #000;
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-animate {
+  animation: fadeUp 0.6s ease both;
+}
+body.dark .navbar {
+  background-color: #000;
+}
+
+body.dark .btn-outline-secondary {
+  color: #ddd;
+  border-color: #444;
+}
+
+body.dark .text-muted {
+  color: #aaa !important;
+}
+/* Card polish */
+.card {
+  border-radius: 14px
+}
+/* Card polish */
+.card {
+  border-radius: 14px;
+  border: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Card header spacing */
+.card h5 {
+  margin-bottom: 1rem;
+}
+
+/* List items cleaner */
+.list-group-item {
+  border: none;
+  padding: 0.75rem 0;
+}
+
+/* Section spacing */
+.container > .card {
+  margin-bottom: 1.5rem;
+}
+/* Mobile UX polish */
+@media (max-width: 576px) {
+
+  /* Bigger tap targets */
+  .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  /* Inputs easier to tap */
+  .form-control {
+    padding: 0.65rem 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  /* Reduce card padding on mobile */
+  .card {
+    padding: 0.75rem !important;
+  }
+
+  /* Navbar spacing */
+  .navbar-brand span {
+    font-size: 0.95rem;
+  }
+
+  /* Stack address actions nicely */
+  .list-group-item button {
+    margin-top: 0.5rem;
+  }
+}
+    html, body {
+  overflow-x: hidden;
+}
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+/* =========================
+   DARK MODE TEXT FIXES
+========================= */
+
+/* Ensure text inherits correctly */
+body.dark {
+  color: #f1f1f1;
+}
+
+/* Cards */
+body.dark .card,
+body.dark .card * {
+  color: #f1f1f1;
+}
+
+/* List groups */
+body.dark .list-group-item {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+}
+
+/* Bootstrap text helpers */
+body.dark .text-dark,
+body.dark .text-body {
+  color: #f1f1f1 !important;
+}
+
+/* Forms */
+body.dark .form-control,
+body.dark .form-select {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+  border-color: #444;
+}
+
+/* Inputs placeholder */
+body.dark ::placeholder {
+  color: #aaa;
+}
+:root {
+  --bg: #f8f9fa;
+  --text: #212529;
+  --card-bg: #ffffff;
+}
+
+body.dark {
+  --bg: #121212;
+  --text: #f1f1f1;
+  --card-bg: #1e1e1e;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+.card {
+  background-color: var(--card-bg);
+  color: var(--text);
+}
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+.navbar-logo {
+  height: 60px;
+  width: auto;
+}
+body.dark .navbar-logo {
+  filter: brightness(1.2);
+}
+#orders .list-group-item {
+  font-size: 0.9rem;
+}
+body.dark #orders .list-group-item {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+}
+    /* ===============================
+   DARK MODE OVERRIDES
+   =============================== */
+
+body.dark {
+  background-color: #121212;
+  color: #eaeaea;
+}
+
+/* Override Bootstrap light backgrounds */
+body.dark .bg-light,
+body.dark .bg-body-tertiary {
+  background-color: #1e1e1e !important;
+}
+
+/* Navbar */
+body.dark .navbar {
+  background-color: #000 !important;
+}
+
+/* Cards */
+body.dark .card {
+  background-color: #1c1c1c;
+  color: #eaeaea;
+}
+
+/* Footer */
+body.dark footer {
+  background-color: #000 !important;
+}
+
+/* Text fixes */
+body.dark .text-muted {
+  color: #9ca3af !important;
+}
+
+/* Buttons */
+body.dark .btn-outline-secondary {
+  color: #eaeaea;
+  border-color: #6c757d;
+}
+body.dark .card {
+  background-color: #1c1c1c;
+  color: #eaeaea;
+}
+
+body.dark .form-control,
+body.dark .form-select {
+  background-color: #111;
+  color: #eaeaea;
+  border-color: #333;
+}
+.card:hover {
+  transform: translateY(-3px);
+  transition: 0.2s ease;
+}
+body.dark .list-group-item,
+body.dark .card {
+  background-color: #1c1c1c;
+  color: #eaeaea;
+}
+
+body.dark .input-group .form-control {
+  background-color: #111;
+  color: #eaeaea;
+  border-color: #333;
+}
+
+body.dark .btn-outline-primary {
+  color: #eaeaea;
+  border-color: #0d6efd;
+}
+.list-group-item {
+  transition: background-color 0.15s ease;
+}
+body.dark .card,
+body.dark .list-group-item {
+  background-color: #1c1c1c;
+  color: #eaeaea;
+}
+
+body.dark hr {
+  border-color: #333;
+}
+body.dark .border {
+  border-color: #333 !important;
+}
+
+body.dark img {
+  background-color: #111;
+}
+body.dark .card {
+  background-color: #1c1c1c;
+  color: #eaeaea;
+}
+@media (max-width: 576px) {
+  .navbar-nav .nav-link {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+@media (max-width: 480px) {
+  .hero-animate + .d-flex {
+    flex-direction: column;
+  }
+}
+@media (max-width: 576px) {
+  #qty {
+    max-width: 100px;
+  }
+}
+@media (max-width: 576px) {
+  #checkoutBtn {
+    position: sticky;
+    bottom: 10px;
+    z-index: 1000;
+  }
+}
+@media (max-width: 576px) {
+  #addressForm .col-6 {
+    width: 100%;
+  }
+}
+@media (max-width: 576px) {
+  #toast {
+    bottom: 80px;
+  }
+}
+button:active {
+  transform: scale(0.98);
+}

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login | Kickbarks Moto Shop</title>
+    <meta
+      name="description"
+      content="Log in to your Kickbarks Moto Shop account to manage orders, profile, and checkout securely."
+    />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-light">
+    <div
+      class="container min-vh-100 d-flex justify-content-center align-items-center"
+    >
+      <div class="card shadow-sm w-100 border-0" style="max-width: 420px">
+        <div class="card-body p-4">
+          <h3 class="text-center fw-bold mb-2">Login</h3>
+          <p class="text-center text-muted mb-4">
+            Welcome back to Kickbarks Moto Shop
+          </p>
+
+          <form onsubmit="login(event)">
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input
+                id="email"
+                type="email"
+                class="form-control"
+                placeholder="you@email.com"
+                autocomplete="email"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <input
+                id="password"
+                type="password"
+                class="form-control"
+                placeholder="••••••••"
+                autocomplete="current-password"
+                required
+              />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg w-100">
+              Login
+            </button>
+          </form>
+          <div class="text-center mt-4">
+            <small>
+              <a href="/forgot-password.html">Forgot your password?</a>
+            </small>
+          </div>
+
+          <div class="text-center mt-4">
+            <small>
+              Don’t have an account?
+              <a href="/signup.html">Sign up</a>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/ui.js"></script>
+  </body>
+</html>
