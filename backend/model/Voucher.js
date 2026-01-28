@@ -1,18 +1,15 @@
 const mongoose = require("mongoose");
 
-const voucherSchema = new mongoose.Schema({
+const VoucherSchema = new mongoose.Schema({
   code: {
     type: String,
     required: true,
-    unique: true,
-    uppercase: true,
-    trim: true
+    unique: true
   },
 
   amount: {
     type: Number,
-    required: true,
-    min: 1
+    required: true
   },
 
   minSpend: {
@@ -20,24 +17,10 @@ const voucherSchema = new mongoose.Schema({
     default: 0
   },
 
-  expiresAt: {
-    type: Date,
-    default: null
-  },
-
-  usedBy: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User"
-    }
-  ],
-
   active: {
     type: Boolean,
     default: true
   }
-}, {
-  timestamps: true
-});
+}, { timestamps: true });
 
-module.exports = mongoose.model("Voucher", voucherSchema);
+module.exports = mongoose.model("Voucher", VoucherSchema);

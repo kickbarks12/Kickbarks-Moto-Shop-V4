@@ -35,3 +35,38 @@ function add() {
   showToast("Added to cart");
 }
 
+document.addEventListener("DOMContentLoaded", async () => {
+  const voucherList = document.getElementById("voucherList");
+  if (!voucherList) return;
+
+  try {
+    const res = await fetch("/api/vouchers", {
+      method: "GET",
+      credentials: "include"
+    });
+
+    if (!res.ok) {
+      voucherList.innerHTML = "<li>Please login to see vouchers</li>";
+      return;
+    }
+
+    const vouchers = await res.json();
+
+    if (!vouchers || vouchers.length === 0) {
+      voucherList.innerHTML = "<li>No available vouchers</li>";
+      return;
+    }
+
+    voucherList.innerHTML = "";
+
+    vouchers.forEach(v => {
+      const li = document.createElement("li");
+      li.textContent = `${v.code} – ₱${v.amount} off (Min ₱${v.minSpend})`;
+      voucherList.appendChild(li);
+    });
+
+  } catch (err) {
+    console.error("Voucher fetch failed:", err);
+    voucherList.innerHTML = "<li>Failed to load vouchers</li>";
+  }
+});

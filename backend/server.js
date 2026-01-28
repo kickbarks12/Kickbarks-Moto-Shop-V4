@@ -4,12 +4,18 @@ const session = require("express-session");
 const cors = require("cors");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+
+
 require("dotenv").config();
 
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:4000",
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -26,25 +32,24 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 1000 * 60 * 60 * 24 // 1 day
-    }
+  httpOnly: true,
+  sameSite: "lax",
+  secure: false, // ✅ IMPORTANT FOR localhost
+  maxAge: 1000 * 60 * 60 * 24
+}
+
   })
 );
 
 
 
-
-const adminRoutes = require("./routes/adminRoutes");
 // API routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/products", require("./routes/products"));
 app.use("/api/orders", require("./routes/orders"));
 app.use("/api/users", require("./routes/users"));
 app.use("/api/vouchers", require("./routes/vouchers"));
-app.use("/api/admin", adminRoutes);
+
 
 
 

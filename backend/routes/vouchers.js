@@ -1,12 +1,32 @@
-const mongoose = require("mongoose");
-
 const express = require("express");
 const Voucher = require("../model/Voucher");
 const router = express.Router();
 
+/**
+ * GET available vouchers (for display)
+ */
+router.get("/", async (req, res) => {
+  try {
+    if (!req.session.userId) {
+      return res.status(401).json({ error: "Not logged in" });
+    }
+
+    const vouchers = await Voucher.find({ active: true });
+
+    res.json(vouchers);
+  } catch (err) {
+    console.error("FETCH VOUCHERS ERROR:", err);
+    res.status(500).json({ error: "Failed to fetch vouchers" });
+  }
+});
+
+/**
+ * APPLY voucher (preview only)
+ * This does NOT delete the voucher
+ * Deletion happens AFTER order success
+ */
 router.post("/apply", async (req, res) => {
   try {
-    // 1️⃣ Auth check
     if (!req.session.userId) {
       return res.status(401).json({
         valid: false,
@@ -15,9 +35,7 @@ router.post("/apply", async (req, res) => {
     }
 
     const { code, subtotal } = req.body;
-console.log("Voucher lookup code:", code.toUpperCase());
 
-    // 2️⃣ Basic validation
     if (!code || !subtotal) {
       return res.status(400).json({
         valid: false,
@@ -25,7 +43,6 @@ console.log("Voucher lookup code:", code.toUpperCase());
       });
     }
 
-    // 3️⃣ Find voucher
     const voucher = await Voucher.findOne({
       code: code.toUpperCase(),
       active: true
@@ -34,46 +51,20 @@ console.log("Voucher lookup code:", code.toUpperCase());
     if (!voucher) {
       return res.json({
         valid: false,
-        message: "Invalid voucher code"
+        message: "Invalid or expired voucher"
       });
     }
 
-    // 4️⃣ Expiry check
-    if (voucher.expiresAt && voucher.expiresAt < new Date()) {
+    if (voucher.minSpend && Number(subtotal) < Number(voucher.minSpend)) {
       return res.json({
         valid: false,
-        message: "Voucher has expired"
+        message: `Minimum spend ₱${voucher.minSpend}`
       });
     }
 
-    // 5️⃣ Minimum spend check
-   console.log("CHECK MIN SPEND:");
-console.log("Subtotal:", subtotal, typeof subtotal);
-console.log("MinSpend:", voucher.minSpend, typeof voucher.minSpend);
+    const discount = Math.min(voucher.amount, Number(subtotal));
+    const finalTotal = Number(subtotal) - discount;
 
-if (Number(subtotal) < Number(voucher.minSpend)) {
-  return res.json({
-    valid: false,
-    message: `Minimum spend ₱${voucher.minSpend}`
-  });
-}
-
-
-    // 6️⃣ One-time use check
-    if (Array.isArray(voucher.usedBy) &&
-    voucher.usedBy.includes(req.session.userId)) {
-  return res.json({
-    valid: false,
-    message: "Voucher already used"
-  });
-}
-
-
-    // 7️⃣ Calculate discount
-    const discount = Math.min(voucher.amount, subtotal);
-    const finalTotal = subtotal - discount;
-
-    // 8️⃣ Success
     res.json({
       valid: true,
       code: voucher.code,

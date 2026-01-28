@@ -10,6 +10,7 @@ const Voucher = require("../model/Voucher");
 
 
 
+
 router.post("/", async (req, res) => {
   try {
     if (!req.session.userId) {
@@ -35,40 +36,30 @@ router.post("/", async (req, res) => {
     }, 0);
 
     // 2️⃣ Voucher logic (CORRECT LOCATION)
-    let discount = 0;
-    let appliedVoucher = null;
+    // 2️⃣ Voucher logic (ONE-TIME USE)
+let discount = 0;
+let appliedVoucher = null;
 
-    if (voucher) {
-      const foundVoucher = await Voucher.findOne({
-        code: voucher.toUpperCase(),
-        active: true
-      });
+if (voucher) {
+  const foundVoucher = await Voucher.findOne({
+    code: voucher.toUpperCase(),
+    active: true
+  });
 
-      if (!foundVoucher) {
-        return res.status(400).json({ error: "Invalid voucher" });
-      }
+  if (!foundVoucher) {
+    return res.status(400).json({ error: "Invalid or expired voucher" });
+  }
 
-      if (subtotal < foundVoucher.minSpend) {
-        return res.status(400).json({
-          error: `Minimum spend ₱${foundVoucher.minSpend}`
-        });
-      }
+  if (subtotal < foundVoucher.minSpend) {
+    return res.status(400).json({
+      error: `Minimum spend ₱${foundVoucher.minSpend}`
+    });
+  }
 
-      if (
-        Array.isArray(foundVoucher.usedBy) &&
-        foundVoucher.usedBy.some(
-          id => id.toString() === user._id.toString()
-        )
-      ) {
-        return res.status(400).json({ error: "Voucher already used" });
-      }
+  discount = foundVoucher.amount;
+  appliedVoucher = foundVoucher;
+}
 
-      discount = foundVoucher.amount;
-      appliedVoucher = foundVoucher;
-
-      foundVoucher.usedBy.push(user._id);
-      await foundVoucher.save();
-    }
 
     // 3️⃣ Final total (backend truth)
     const finalTotal = Math.max(subtotal - discount, 0);
@@ -83,6 +74,10 @@ router.post("/", async (req, res) => {
       status: "Pending",
       date: new Date()
     });
+// 🧹 Remove voucher after successful use
+if (appliedVoucher) {
+  await Voucher.findByIdAndDelete(appliedVoucher._id);
+}
 
     sendReceiptEmail(order, user.email);
 

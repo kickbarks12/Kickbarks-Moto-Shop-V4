@@ -76,10 +76,47 @@
         <p><strong>Mobile:</strong> <span id="profileMobile">—</span></p>
         <p><strong>Birthday:</strong> <span id="profileBirthday">—</span></p>
 
-        <p class="mt-2">
-          <strong>Store Credits:</strong>
-          ₱<span id="profileVouchers">0</span>
-        </p>
+        <h3>Available Vouchers</h3>
+        <ul id="voucherList">
+          <li>Loading vouchers...</li>
+        </ul>
+
+        <script>
+          (async function () {
+            const voucherList = document.getElementById("voucherList");
+            if (!voucherList) return;
+
+            try {
+              const res = await fetch("/api/vouchers", {
+                credentials: "include",
+              });
+
+              if (!res.ok) {
+                voucherList.innerHTML = "<li>Please login to see vouchers</li>";
+                return;
+              }
+
+              const vouchers = await res.json();
+
+              if (!Array.isArray(vouchers) || vouchers.length === 0) {
+                voucherList.innerHTML = "<li>No available vouchers</li>";
+                return;
+              }
+
+              voucherList.innerHTML = "";
+
+              vouchers.forEach((v) => {
+                const li = document.createElement("li");
+                li.textContent = `${v.code} – ₱${v.amount} off (Min ₱${v.minSpend})`;
+                voucherList.appendChild(li);
+              });
+            } catch (err) {
+              console.error("Voucher load failed:", err);
+              voucherList.innerHTML = "<li>Failed to load vouchers</li>";
+            }
+          })();
+        </script>
+
         <!-- ADDRESSES -->
         <div class="card p-3 mb-4">
           <h5 class="fw-bold mb-3">My Addresses</h5>

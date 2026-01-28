@@ -1,18 +1,12 @@
-const jwt = require("jsonwebtoken");
 const User = require("../model/User");
 
 async function requireAuth(req, res, next) {
   try {
-    const token = req.cookies?.token;
-
-    if (!token) {
+    if (!req.session || !req.session.userId) {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-    const user = await User.findById(decoded.id).select("-password");
-
+    const user = await User.findById(req.session.userId).select("-password");
     if (!user) {
       return res.status(401).json({ message: "User not found" });
     }
@@ -20,7 +14,7 @@ async function requireAuth(req, res, next) {
     req.user = user;
     next();
   } catch (err) {
-    return res.status(401).json({ message: "Invalid or expired token" });
+    return res.status(401).json({ message: "Unauthorized" });
   }
 }
 
