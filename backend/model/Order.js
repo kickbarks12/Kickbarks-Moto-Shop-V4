@@ -1,29 +1,28 @@
-
 const mongoose = require("mongoose");
 
-const OrderSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+const orderSchema = new mongoose.Schema({
+  orderNumber: {
+    type: String,
+    unique: true,
+    required: true,
+    default: () => `ORD-${Date.now()}-${Math.floor(Math.random() * 1000)}`
+  },
+
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true
+  },
+
   items: Array,
   total: Number,
+  voucher: String,
+  discount: Number,
   status: String,
-  date: Date,
-
-  refundStatus: {
-  type: String,
-  enum: ["None", "Requested", "Refunded"],
-  default: "None"
-},
-refundAmount: {
-  type: Number,
-  default: 0
-},
-refundDate: {
-  type: Date
-},
-refundReason: {
-  type: String
-}
-
+  refundStatus: String,
+  refundReason: String,
+  refundAmount: Number,
+  date: Date
 });
 
-module.exports = mongoose.model("Order", OrderSchema);
+module.exports = mongoose.model("Order", orderSchema);
